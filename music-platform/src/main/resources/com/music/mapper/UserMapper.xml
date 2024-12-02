@@ -7,4 +7,15 @@
     <insert id="insertUser">
         insert into user (name,gender,hobby,password) value (#{name},#{gender},#{hobby},#{password});
     </insert>
+
+    <update id="updateUser">
+        update user
+        <set>
+            <if test="name!=null and name !=''">name=#{name},</if>
+            <if test="gender!=null  and gender !=''"  >gender=#{gender},</if>
+            <if test="hobby!=null  and hobby !=''"  >hobby=#{hobby},</if>
+            <if test="password!=null  and password !=''"  >password=#{password},</if>
+        </set>
+        where id=#{id}
+    </update>
 </mapper>

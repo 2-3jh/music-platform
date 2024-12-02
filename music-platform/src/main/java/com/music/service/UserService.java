@@ -1,6 +1,7 @@
 package com.music.service;
 
 import com.music.dto.UserEntryDTO;
+import com.music.dto.UserUpdateDTO;
 import com.music.entity.User;
 import com.music.vo.UserInfoVO;
 
@@ -10,4 +11,6 @@ public interface UserService {
     User login(UserEntryDTO userEntryDTO);
 
     UserInfoVO getUserInfo();
+
+    void updateUser(UserUpdateDTO userUpdateDTO);
 }

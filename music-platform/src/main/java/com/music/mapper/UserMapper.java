@@ -10,10 +10,12 @@ import org.apache.ibatis.annotations.Select;
 public interface UserMapper {
 
     @Select("select * from User where name = #{name}")
-    User getUserByName(UserEntryDTO userRegisterDTO);
+    User getUserByName(String name);
 
     void insertUser(User user);
 
     @Select("select * from User where id = #{id}")
     User getUserById(Long currentId);
+
+    void updateUser(User user);
 }

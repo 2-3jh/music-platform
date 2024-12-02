@@ -2,6 +2,7 @@ package com.music.controller;
 
 
 import com.music.dto.UserEntryDTO;
+import com.music.dto.UserUpdateDTO;
 import com.music.entity.User;
 import com.music.result.Result;
 import com.music.service.UserService;
@@ -67,5 +68,16 @@ public class UserController {
         log.info("获取用户信息");
         UserInfoVO userInfoVO = userService.getUserInfo();
         return Result.success(userInfoVO);
+    }
+
+    /**
+     * 修改用户的信息
+     * @return
+     */
+    @PutMapping()
+    public Result UpdateUserInfo(@RequestBody UserUpdateDTO userUpdateDTO) {
+        log.info("修改用户的信息");
+        userService.updateUser(userUpdateDTO);
+        return Result.success();
     }
 }
