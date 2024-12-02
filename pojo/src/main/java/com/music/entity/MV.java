@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 public class MV {
     //mv的id
     private Integer id;
+    //名称
+    private String name;
     //对mv的描述
     private String describe;
     //mv的作者

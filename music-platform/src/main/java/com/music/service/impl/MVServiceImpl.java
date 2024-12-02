@@ -2,6 +2,8 @@ package com.music.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.music.constant.Constant;
+import com.music.exception.MyException;
 import com.music.mapper.MVMapper;
 import com.music.dto.MVPageQueryDTO;
 import com.music.entity.MV;
@@ -36,10 +38,14 @@ public class MVServiceImpl implements MVService {
     //查询具体的MV信息
     @Override
     public MVItemVO getById(Integer id) {
+
         //查询
         MV mv = mvMapper.getById(id);
 
         //封装
+        if(mv==null){
+            throw new MyException(Constant.MV_NOT_FOUND);
+        }
         MVItemVO mvItemVO = BeanCopyUtils.copyBean(mv, MVItemVO.class);
         return mvItemVO;
     }

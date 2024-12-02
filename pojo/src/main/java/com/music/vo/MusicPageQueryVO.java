@@ -1,14 +1,10 @@
 package com.music.vo;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class MVItemVO {
+public class MusicPageQueryVO {
+
     //id列
     private Integer id;
     //名称
@@ -19,7 +15,6 @@ public class MVItemVO {
     private String writeMusic;
     //背景图片
     private String photo;
+
     private String singer;
-
-
 }
