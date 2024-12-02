@@ -1,14 +1,14 @@
 package com.music.vo;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class UserLogonVO {
+@NoArgsConstructor
+public class UserInfoVO {
     //用户的id
     private Integer id;
     //用户的名字
@@ -17,6 +17,6 @@ public class UserLogonVO {
     private String gender;
     //用户的爱好
     private String hobby;
-    //token
-    private String token;
+
 }
+

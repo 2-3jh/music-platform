@@ -7,6 +7,8 @@ import com.music.exception.MyException;
 import com.music.mapper.UserMapper;
 import com.music.service.UserService;
 import com.music.utils.BeanCopyUtils;
+import com.music.utils.MyContext;
+import com.music.vo.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -46,7 +48,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public User logon(UserEntryDTO userEntryDTO) {
+    public User login(UserEntryDTO userEntryDTO) {
         //通过用户名获取用户
         User user = userMapper.getUserByName(userEntryDTO);
 
@@ -62,5 +64,17 @@ public class UserServiceImpl implements UserService {
 
         //返回
         return user;
+    }
+
+    /**
+     * 获取当前用户的信息
+     * @return
+     */
+    @Override
+    public UserInfoVO getUserInfo() {
+        Long currentId = MyContext.getCurrentId();
+        User user = userMapper.getUserById(currentId);
+        UserInfoVO userInfoVO = BeanCopyUtils.copyBean(user, UserInfoVO.class);
+        return userInfoVO;
     }
 }

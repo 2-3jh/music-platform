@@ -13,4 +13,7 @@ public interface UserMapper {
     User getUserByName(UserEntryDTO userRegisterDTO);
 
     void insertUser(User user);
+
+    @Select("select * from User where id = #{id}")
+    User getUserById(Long currentId);
 }

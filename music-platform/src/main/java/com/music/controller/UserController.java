@@ -7,7 +7,8 @@ import com.music.result.Result;
 import com.music.service.UserService;
 import com.music.utils.BeanCopyUtils;
 import com.music.utils.JwtUtil;
-import com.music.vo.UserLogonVO;
+import com.music.vo.UserInfoVO;
+import com.music.vo.UserLoginVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,10 +41,10 @@ public class UserController {
      * @param userEntryDTO
      * @return
      */
-    @PostMapping("/logon")
-    public Result userLogon(@RequestBody UserEntryDTO userEntryDTO) {
+    @PostMapping("/login")
+    public Result userLogin(@RequestBody UserEntryDTO userEntryDTO) {
         log.info("用户登录:{}", userEntryDTO);
-        User user = userService.logon(userEntryDTO);
+        User user = userService.login(userEntryDTO);
 
         //登录成功下发Jwt令牌
         Map<String, Object> claims = new HashMap<>();
@@ -52,14 +53,19 @@ public class UserController {
         String token = JwtUtil.generateJWT(claims);
 
         //封装
-        UserLogonVO userLogonVO = BeanCopyUtils.copyBean(user, UserLogonVO.class);
+        UserLoginVO userLogonVO = BeanCopyUtils.copyBean(user, UserLoginVO.class);
         userLogonVO.setToken(token);
         return Result.success(userLogonVO);
     }
 
-//    @GetMapping("/{id}")
-//    public Result getUserById(@PathVariable  int id) {
-//        log.info("获取用户信息：{}",id);
-//        userService.getUserById();
-//    }
+    /**
+     * 获取用户信息
+     * @return
+     */
+    @GetMapping()
+    public Result getUserInfo() {
+        log.info("获取用户信息");
+        UserInfoVO userInfoVO = userService.getUserInfo();
+        return Result.success(userInfoVO);
+    }
 }
