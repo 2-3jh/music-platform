@@ -3,8 +3,10 @@ package com.music.service.impl;
 import com.music.constant.Constant;
 import com.music.dto.UserEntryDTO;
 import com.music.dto.UserUpdateDTO;
+import com.music.entity.Playlist;
 import com.music.entity.User;
 import com.music.exception.MyException;
+import com.music.mapper.PlaylistMapper;
 import com.music.mapper.UserMapper;
 import com.music.service.UserService;
 import com.music.utils.BeanCopyUtils;
@@ -15,11 +17,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
+
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
     UserMapper  userMapper;
+
+    @Autowired
+    PlaylistMapper playlistMapper;
 
     /**
      * 用户注册
@@ -40,7 +47,10 @@ public class UserServiceImpl implements UserService {
         newUser.setGender("男");
         newUser.setHobby("无");
         newUser.setPassword(DigestUtils.md5DigestAsHex(newUser.getPassword().getBytes()));
+
         userMapper.insertUser(newUser);
+
+        playlistMapper.save(new Playlist(null,"我喜欢",newUser.getId(),new Date()));
     }
 
 

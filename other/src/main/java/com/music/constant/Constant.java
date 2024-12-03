@@ -9,4 +9,6 @@ public class Constant {
     public static final String USER_NAME_EXIST = "用户名已存在";
     public static final String USER_NOT_EXIST = "用户不存在";
     public static final String PASSWORD_ERROR = "密码错误";
+    public static final String NAME_IS_EMPTY = "名字为空";
+    public static final String PLAYLIST_EXIST = "歌单存在";
 }
