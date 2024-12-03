@@ -12,4 +12,12 @@
             </if>
         </where>
     </select>
+
+
+    <select id="getByIdBatch" resultType="com.music.entity.Music">
+        select * from music where id in
+        <foreach collection="list" item="it" open="(" close=")" separator=",">
+            #{it}
+        </foreach>
+    </select>
 </mapper>

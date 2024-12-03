@@ -18,4 +18,6 @@ public interface MusicMapper {
 
     @Select("select distinct category from music")
     List<String> getCategory();
+
+    List<Music> getByIdBatch(List<Integer> list);
 }

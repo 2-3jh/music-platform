@@ -3,7 +3,7 @@ package com.music.vo;
 import lombok.Data;
 
 @Data
-public class MusicPageQueryVO {
+public class MusicCrudeVO {
 
     //id列
     private Integer id;

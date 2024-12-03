@@ -4,20 +4,17 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.music.constant.Constant;
 import com.music.dto.MusicPageQueryDTO;
-import com.music.entity.MV;
 import com.music.entity.Music;
 import com.music.exception.MyException;
 import com.music.mapper.MusicMapper;
 import com.music.result.PageResult;
 import com.music.service.MusicService;
 import com.music.utils.BeanCopyUtils;
-import com.music.vo.MVItemVO;
 import com.music.vo.MusicItemVO;
-import com.music.vo.MusicPageQueryVO;
+import com.music.vo.MusicCrudeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -32,7 +29,7 @@ public class MusicServiceImpl implements MusicService {
         //开启分页查询
         PageHelper.startPage(musicPageQueryDTO.getPage(),musicPageQueryDTO.getPageSize());
         Page<Music> page = musicMapper.pageQuery(musicPageQueryDTO);
-        List<MusicPageQueryVO> list=BeanCopyUtils.copyBeanList(page.getResult(), MusicPageQueryVO.class);
+        List<MusicCrudeVO> list=BeanCopyUtils.copyBeanList(page.getResult(), MusicCrudeVO.class);
         return new PageResult(page.getTotal(),list);
     }
 
