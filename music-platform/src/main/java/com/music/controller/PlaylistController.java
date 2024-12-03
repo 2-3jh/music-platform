@@ -1,6 +1,7 @@
 package com.music.controller;
 
 
+import com.music.dto.AddMusicDTO;
 import com.music.dto.PlaylistDelDTO;
 import com.music.dto.PlaylistSaveDTO;
 import com.music.result.Result;
@@ -73,5 +74,18 @@ public class PlaylistController {
         //获取音乐信息
         List<MusicCrudeVO> list = playlistService.getMusic(id);
         return Result.success(list);
+    }
+
+
+    /**
+     * 向歌单中添加音乐
+     * @param addMusicDTO
+     * @return
+     */
+    @PutMapping("/music")
+    public Result addMusic(@RequestBody AddMusicDTO addMusicDTO){
+        log.info("add music:{}", addMusicDTO);
+        playlistService.addMusic(addMusicDTO);
+        return Result.success();
     }
 }
