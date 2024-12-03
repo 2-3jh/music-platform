@@ -11,4 +11,6 @@ public class Constant {
     public static final String PASSWORD_ERROR = "密码错误";
     public static final String NAME_IS_EMPTY = "名字为空";
     public static final String PLAYLIST_EXIST = "歌单存在";
+    public static final String SET_CREATE_TIME = "setCreateTime";
+    public static final String SET_CREATE_USER = "setCreateUser";
 }

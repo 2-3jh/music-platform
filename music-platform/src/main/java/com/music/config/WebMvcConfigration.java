@@ -17,6 +17,7 @@ public class WebMvcConfigration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)//添加拦截器
                 .addPathPatterns("/user/**")  //配置拦截路径
+                .addPathPatterns("/playlist/**")
                 .excludePathPatterns("/user/login")//配置排除路径
                 .excludePathPatterns("/user/register");
     }

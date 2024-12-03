@@ -50,7 +50,8 @@ public class UserServiceImpl implements UserService {
 
         userMapper.insertUser(newUser);
 
-        playlistMapper.save(new Playlist(null,"我喜欢",newUser.getId(),new Date()));
+        MyContext.setCurrentId(newUser.getId());
+        playlistMapper.save(new Playlist(null,"我喜欢",null,null));
     }
 
 
@@ -84,7 +85,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserInfoVO getUserInfo() {
-        Long currentId = MyContext.getCurrentId();
+        Integer currentId = MyContext.getCurrentId();
         User user = userMapper.getUserById(currentId);
         UserInfoVO userInfoVO = BeanCopyUtils.copyBean(user, UserInfoVO.class);
         return userInfoVO;

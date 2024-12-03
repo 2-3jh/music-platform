@@ -15,7 +15,7 @@ public interface UserMapper {
     void insertUser(User user);
 
     @Select("select * from User where id = #{id}")
-    User getUserById(Long currentId);
+    User getUserById(Integer currentId);
 
     void updateUser(User user);
 }

@@ -47,8 +47,6 @@ public class PlaylistServiceImpl implements PlaylistService {
 
         //转换类型
         playlist = BeanCopyUtils.copyBean(playlistSaveDTO, Playlist.class);
-        playlist.setCreateTime(new Date());
-        playlist.setCreateUser(1);
 
         //创建歌单
         playlistMapper.save(playlist);

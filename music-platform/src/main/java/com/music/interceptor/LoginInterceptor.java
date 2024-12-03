@@ -29,7 +29,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         try {
             Claims claims = JwtUtil.parseJWT(token);
             //获取当前用户的id
-            Long userId = Long.valueOf(claims.get("id").toString());
+            Integer userId = Integer.valueOf(claims.get("id").toString());
            //将id存入线程中
             log.info("当前用户的id:{}",userId);
             MyContext.setCurrentId(userId);
