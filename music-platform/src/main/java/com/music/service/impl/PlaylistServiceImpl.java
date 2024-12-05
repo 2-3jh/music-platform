@@ -1,7 +1,7 @@
 package com.music.service.impl;
 
 import com.music.constant.Constant;
-import com.music.dto.AddMusicDTO;
+import com.music.dto.PlaylistMusicDTO;
 import com.music.dto.PlaylistSaveDTO;
 import com.music.entity.Music;
 import com.music.entity.Playlist;
@@ -17,6 +17,7 @@ import com.music.vo.MusicCrudeVO;
 import com.music.vo.PlaylistVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import java.util.List;
 
@@ -78,6 +79,7 @@ public class PlaylistServiceImpl implements PlaylistService {
      * 删除歌单
      * @param id
      */
+    @Transactional
     @Override
     public void delete(Integer id) {
         //判断歌单是否为当前用户的和存在
@@ -129,10 +131,14 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     }
 
+    /**
+     * 向歌单中添加音乐
+     * @param playlistMusicDTO
+     */
     @Override
-    public void addMusic(AddMusicDTO addMusicDTO) {
+    public void addMusic(PlaylistMusicDTO playlistMusicDTO) {
         //判断歌单是否为当前用户的和存在
-        Playlist  playlist= playlistMapper.getById(addMusicDTO.getPlaylistId());
+        Playlist  playlist= playlistMapper.getById(playlistMusicDTO.getPlaylistId());
 
         //不是抛出错误
         if(playlist ==null || playlist.getCreateUser()!=MyContext.getCurrentId()){
@@ -140,19 +146,49 @@ public class PlaylistServiceImpl implements PlaylistService {
         }
 
         //判断是否有该音乐
-        if(musicMapper.getById(addMusicDTO.getMusicId())==null){
+        if(musicMapper.getById(playlistMusicDTO.getMusicId())==null){
             throw new MyException(Constant.MUSIC_NOT_FOUND);
         }
 
         //判断歌单中是否存在此音乐
-        PlaylistSong  playlistSong = playlistMusicMapper.getByPlaylistMusicId(addMusicDTO);
+        PlaylistSong  playlistSong = playlistMusicMapper.getByPlaylistMusicId(playlistMusicDTO);
 
         if(playlistSong != null){
             throw new MyException(Constant.MUSIC_EXIST_IN_PLAYLIST);
         }
 
         //不存在添加
-        playlistMusicMapper.addMusic(addMusicDTO);
+        playlistMusicMapper.addMusic(playlistMusicDTO);
 
+    }
+
+    /**
+     * 删除歌单的音乐
+     * @param playlistMusicDTO
+     */
+    @Override
+    public void deleteMusic(PlaylistMusicDTO playlistMusicDTO) {
+        //判断歌单是否为当前用户的和存在
+        Playlist  playlist= playlistMapper.getById(playlistMusicDTO.getPlaylistId());
+
+        //不是抛出错误
+        if(playlist ==null || playlist.getCreateUser()!=MyContext.getCurrentId()){
+            throw new MyException(Constant.PLAYLIST_NOT_EXIST);
+        }
+
+        //判断是否有该音乐
+        if(musicMapper.getById(playlistMusicDTO.getMusicId())==null){
+            throw new MyException(Constant.MUSIC_NOT_FOUND);
+        }
+
+        //判断歌单中是否存在此音乐
+        PlaylistSong  playlistSong = playlistMusicMapper.getByPlaylistMusicId(playlistMusicDTO);
+
+        if(playlistSong == null){
+            throw new MyException(Constant.MUSIC_NOT_IN_PLAYLIST);
+        }
+
+        //删除
+        playlistMusicMapper.deleteMusicFromPlaylist(playlistMusicDTO);
     }
 }

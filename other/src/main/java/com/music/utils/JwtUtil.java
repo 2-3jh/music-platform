@@ -1,9 +1,9 @@
 package com.music.utils;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.music.constant.Constant;
+import com.music.exception.MyException;
+import io.jsonwebtoken.*;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Map;
@@ -48,11 +48,24 @@ public class JwtUtil {
      */
     public static Claims parseJWT(String token) {
         // 得到DefaultJwtParser
-        Claims claims = Jwts.parser()
-                // 设置签名的秘钥
-                .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
-                // 设置需要解析的jwt
-                .parseClaimsJws(token).getBody();
+        Claims claims = null ;
+        try {
+            claims= Jwts.parser()
+                    // 设置签名的秘钥
+                    .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
+                    // 设置需要解析的jwt
+                    .parseClaimsJws(token).getBody();
+        } catch (ExpiredJwtException e) {
+            throw new MyException(Constant.JWT_ERROR);
+        } catch (UnsupportedJwtException e) {
+            throw new RuntimeException(e);
+        } catch (MalformedJwtException e) {
+            throw new RuntimeException(e);
+        } catch (SignatureException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e);
+        }
         return claims;
     }
 

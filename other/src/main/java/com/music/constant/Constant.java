@@ -16,4 +16,8 @@ public class Constant {
     public static final String PLAYLIST_NOT_EXIST = "歌单不存在";
     public static final String HAVENT_MUSIC = "没有音乐";
     public static final String MUSIC_EXIST_IN_PLAYLIST = "音乐已经在歌单中";
+    public static final String MUSIC_NOT_IN_PLAYLIST = "音乐不在歌单中";
+    public static final String JWT_ERROR = "请登录";
+
+    public static final String NAME_NOT_NULL ="用户名不能为空";
 }

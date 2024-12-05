@@ -1,7 +1,8 @@
 package com.music.controller;
 
 
-import com.music.dto.AddMusicDTO;
+import com.music.annotation.Log;
+import com.music.dto.PlaylistMusicDTO;
 import com.music.dto.PlaylistDelDTO;
 import com.music.dto.PlaylistSaveDTO;
 import com.music.result.Result;
@@ -9,6 +10,7 @@ import com.music.service.PlaylistService;
 import com.music.vo.MusicCrudeVO;
 import com.music.vo.PlaylistVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +31,8 @@ public class PlaylistController {
      * @return
      */
     @PostMapping()
+    @Log(doingName = "save playlist")
     public Result save(@RequestBody PlaylistSaveDTO playlistSaveDTO){
-        log.info("save playlist:{}", playlistSaveDTO);
         playlistService.save(playlistSaveDTO);
         return Result.success();
     }
@@ -41,8 +43,8 @@ public class PlaylistController {
      * @return
      */
     @GetMapping()
+    @Log(doingName = "查询用户的歌单")
     public Result getPlaylist(){
-        log.info("查询用户的歌单");
 
         List<PlaylistVO> list = playlistService.getPlaylist();
 
@@ -56,8 +58,8 @@ public class PlaylistController {
      * @return
      */
     @DeleteMapping()
+    @Log(doingName = "delete playlist")
     public Result deletePlaylist(@RequestBody PlaylistDelDTO playlistDelDTO){
-        log.info("delete playlist:{}", playlistDelDTO);
         playlistService.delete(playlistDelDTO.getId());
         return Result.success();
     }
@@ -69,8 +71,8 @@ public class PlaylistController {
      * @return
      */
     @GetMapping("/{id}")
+    @Log(doingName = "get music")
     public Result getMusic(@PathVariable Integer id){
-        log.info("get music:{}", id);
         //获取音乐信息
         List<MusicCrudeVO> list = playlistService.getMusic(id);
         return Result.success(list);
@@ -79,13 +81,25 @@ public class PlaylistController {
 
     /**
      * 向歌单中添加音乐
-     * @param addMusicDTO
+     * @param playlistMusicDTO
      * @return
      */
     @PutMapping("/music")
-    public Result addMusic(@RequestBody AddMusicDTO addMusicDTO){
-        log.info("add music:{}", addMusicDTO);
-        playlistService.addMusic(addMusicDTO);
+    @Log(doingName = "add music to playlist")
+    public Result addMusic(@RequestBody PlaylistMusicDTO playlistMusicDTO){
+        playlistService.addMusic(playlistMusicDTO);
+        return Result.success();
+    }
+
+    /**
+     * 删除歌单中的音乐
+     * @param playlistMusicDTO
+     * @return
+     */
+    @DeleteMapping("/music")
+    @Log(doingName = "delete music from playlist")
+    public Result deleteMusic(@RequestBody PlaylistMusicDTO playlistMusicDTO){
+        playlistService.deleteMusic(playlistMusicDTO);
         return Result.success();
     }
 }

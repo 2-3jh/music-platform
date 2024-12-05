@@ -1,6 +1,6 @@
 package com.music.mapper;
 
-import com.music.dto.AddMusicDTO;
+import com.music.dto.PlaylistMusicDTO;
 import com.music.entity.PlaylistSong;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -25,8 +25,12 @@ public interface PlaylistMusicMapper {
 
 
     @Select("select * from playlist_song where playlist_id = #{playlistId} and song_id = #{musicId}")
-    PlaylistSong getByPlaylistMusicId(AddMusicDTO addMusicDTO);
+    PlaylistSong getByPlaylistMusicId(PlaylistMusicDTO playlistMusicDTO);
 
     @Insert("insert into playlist_song value (#{playlistId},#{musicId})")
-    void addMusic(AddMusicDTO addMusicDTO);
+    void addMusic(PlaylistMusicDTO playlistMusicDTO);
+
+
+    @Delete("delete from playlist_song where playlist_id = #{playlistId} and song_id = #{musicId}")
+    void deleteMusicFromPlaylist(PlaylistMusicDTO playlistMusicDTO);
 }

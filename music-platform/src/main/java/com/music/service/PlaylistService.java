@@ -1,6 +1,6 @@
 package com.music.service;
 
-import com.music.dto.AddMusicDTO;
+import com.music.dto.PlaylistMusicDTO;
 import com.music.dto.PlaylistSaveDTO;
 import com.music.vo.MusicCrudeVO;
 import com.music.vo.PlaylistVO;
@@ -16,5 +16,7 @@ public interface PlaylistService {
 
     List<MusicCrudeVO> getMusic(Integer id);
 
-    void addMusic(AddMusicDTO addMusicDTO);
+    void addMusic(PlaylistMusicDTO playlistMusicDTO);
+
+    void deleteMusic(PlaylistMusicDTO playlistMusicDTO);
 }

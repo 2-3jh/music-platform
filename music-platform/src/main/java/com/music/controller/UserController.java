@@ -1,6 +1,7 @@
 package com.music.controller;
 
 
+import com.music.annotation.Log;
 import com.music.dto.UserEntryDTO;
 import com.music.dto.UserUpdateDTO;
 import com.music.entity.User;
@@ -13,7 +14,6 @@ import com.music.vo.UserLoginVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,8 +31,8 @@ public class UserController {
      * @return
      */
     @PostMapping("/register")
+    @Log(doingName = "用户注册")
     public Result userRegister(@RequestBody UserEntryDTO userEntryDTO) {
-        log.info("用户注册：{}", userEntryDTO);
         userService.register(userEntryDTO);
         return Result.success();
     }
@@ -43,8 +43,8 @@ public class UserController {
      * @return
      */
     @PostMapping("/login")
+    @Log(doingName = "用户登录")
     public Result userLogin(@RequestBody UserEntryDTO userEntryDTO) {
-        log.info("用户登录:{}", userEntryDTO);
         User user = userService.login(userEntryDTO);
 
         //登录成功下发Jwt令牌
@@ -64,8 +64,8 @@ public class UserController {
      * @return
      */
     @GetMapping()
+    @Log(doingName = "获取用户信息")
     public Result getUserInfo() {
-        log.info("获取用户信息");
         UserInfoVO userInfoVO = userService.getUserInfo();
         return Result.success(userInfoVO);
     }
@@ -75,8 +75,8 @@ public class UserController {
      * @return
      */
     @PutMapping()
+    @Log(doingName = "修改用户的信息")
     public Result UpdateUserInfo(@RequestBody UserUpdateDTO userUpdateDTO) {
-        log.info("修改用户的信息");
         userService.updateUser(userUpdateDTO);
         return Result.success();
     }

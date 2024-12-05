@@ -7,11 +7,3 @@ music:
     username: root
     password: 123456
 
-
-#  redis:
-#    host: localhost
-#    port: 6379
-#    database: 10
-#  wechat:
-#    appid: wx58d0eab6e8f14385
-#    secret: bb878e5be50200be59d1c62f80b57b10

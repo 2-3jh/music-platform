@@ -1,5 +1,7 @@
 package com.music.interceptor;
 
+import com.music.constant.Constant;
+import com.music.exception.MyException;
 import com.music.utils.JwtUtil;
 import com.music.utils.MyContext;
 import io.jsonwebtoken.Claims;
@@ -34,7 +36,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             log.info("当前用户的id:{}",userId);
             MyContext.setCurrentId(userId);
         } catch (Exception e) {
-            e.printStackTrace();
+            //throw new MyException(Constant.JWT_ERROR);进行全局异常捕获
             //如果解析过程中没有出现异常说明是登录状态
             //如果出现了异常，说明未登录，提醒重新登录（401）
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);

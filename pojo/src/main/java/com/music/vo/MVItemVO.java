@@ -9,17 +9,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MVItemVO {
-    //id列
+    //mv的id
     private Integer id;
     //名称
     private String name;
-    //作词
-    private String wording;
-    //作曲人
-    private String writeMusic;
-    //背景图片
-    private String photo;
-    private String singer;
+    //对mv的描述
+    private String describe;
+    //mv的作者
+    private String author;
+    //mv视频的详细地址
+    private String video;
 
 
 }

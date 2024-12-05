@@ -14,6 +14,7 @@ import com.music.utils.MyContext;
 import com.music.vo.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
@@ -32,8 +33,15 @@ public class UserServiceImpl implements UserService {
      * 用户注册
      * @param userRegisterDTO
      */
+    @Transactional
     @Override
     public void register(UserEntryDTO userRegisterDTO) {
+
+        //判断用户名是否空
+        if(userRegisterDTO.getName() == null) {
+            throw new MyException(Constant.NAME_NOT_NULL);
+        }
+
         //判断用户名是否存在
         User user = userMapper.getUserByName(userRegisterDTO.getName());
 
@@ -62,6 +70,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User login(UserEntryDTO userEntryDTO) {
+
+        //判断用户名是否空
+        if(userEntryDTO.getName() == null) {
+            throw new MyException(Constant.NAME_NOT_NULL);
+        }
+
         //通过用户名获取用户
         User user = userMapper.getUserByName(userEntryDTO.getName());
 
@@ -100,6 +114,10 @@ public class UserServiceImpl implements UserService {
         long currentId = MyContext.getCurrentId();
         User user = null;
 
+        //判断用户名是否空
+        if(userUpdateDTO.getName() == null) {
+            throw new MyException(Constant.NAME_NOT_NULL);
+        }
         //判断是否更新用户名
         if (userUpdateDTO.getName() != null) {
             //查询用户名是否已经存在

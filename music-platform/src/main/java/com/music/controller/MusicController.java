@@ -1,6 +1,7 @@
 package com.music.controller;
 
 
+import com.music.annotation.Log;
 import com.music.dto.MusicPageQueryDTO;
 import com.music.result.PageResult;
 import com.music.result.Result;
@@ -26,14 +27,15 @@ public class MusicController {
 
     //音乐推送的分页查询
     @GetMapping("/page")
+    @Log(doingName = "音乐推送的分页查询")
     public Result musicPageQuery(MusicPageQueryDTO musicPageQueryDTO) {
-        log.info("音乐推送的分页查询：{}", musicPageQueryDTO);
         PageResult pageResult =musicService.pageQuery(musicPageQueryDTO);
         return Result.success(pageResult);
     }
 
     //查询具体的Music
     @GetMapping("/{id}")
+    @Log(doingName = "根据id获取Music")
     public Result getById(@PathVariable("id") Integer id) {
         log.info("根据id获取Music:{}",id);
         MusicItemVO musicItemVO=musicService.getById(id);
@@ -42,8 +44,8 @@ public class MusicController {
 
     //查询分类
     @GetMapping("/category")
+    @Log(doingName = "获取音乐和MV的分类")
     public Result getCategory() {
-        log.info("获取音乐的分类");
         List<String> list = musicService.getCategory();
         return Result.success(list);
     }
