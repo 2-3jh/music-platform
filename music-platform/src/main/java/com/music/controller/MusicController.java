@@ -7,6 +7,7 @@ import com.music.result.PageResult;
 import com.music.result.Result;
 import com.music.service.MusicService;
 import com.music.vo.MVItemVO;
+import com.music.vo.MusicCrudeVO;
 import com.music.vo.MusicItemVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,16 @@ public class MusicController {
     @Log(doingName = "获取音乐和MV的分类")
     public Result getCategory() {
         List<String> list = musicService.getCategory();
+        return Result.success(list);
+    }
+
+    /**
+     * 名字模糊搜索
+     */
+    @GetMapping("/search")
+    @Log(doingName = "根据名字搜索music")
+    public Result getByName(String name) {
+        List<MusicCrudeVO> list = musicService.getByName(name);
         return Result.success(list);
     }
 }

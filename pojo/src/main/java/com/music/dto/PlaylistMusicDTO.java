@@ -11,4 +11,6 @@ public class PlaylistMusicDTO {
 
     //musicId
     private Integer musicId;
+
+    private Integer userId;
 }

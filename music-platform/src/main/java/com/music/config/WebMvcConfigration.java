@@ -18,11 +18,11 @@ public class WebMvcConfigration implements WebMvcConfigurer {
     //注册认证拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor)//添加拦截器
-                .addPathPatterns("/user/**")  //配置拦截路径
-                .addPathPatterns("/playlist/**")
-                .excludePathPatterns("/user/login")//配置排除路径
-                .excludePathPatterns("/user/register");
+//        registry.addInterceptor(loginInterceptor)//添加拦截器
+//                .addPathPatterns("/user/**")  //配置拦截路径
+//                .addPathPatterns("/playlist/**")
+//                .excludePathPatterns("/user/login")//配置排除路径
+//                .excludePathPatterns("/user/register");
     }
 
 

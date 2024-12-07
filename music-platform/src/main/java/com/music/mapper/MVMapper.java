@@ -7,6 +7,8 @@ import com.music.entity.MV;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface MVMapper {
 
@@ -15,4 +17,6 @@ public interface MVMapper {
 
     @Select("select * from mv where id=#{id}")
     MV getById(Integer id);
+
+    List<MV> getByName(String name);
 }

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MVPageQueryVO {
+public class MVCrudeVO {
     //mv的id
     private Integer id;
     //名称

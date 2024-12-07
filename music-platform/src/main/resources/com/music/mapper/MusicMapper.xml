@@ -20,4 +20,8 @@
             #{it}
         </foreach>
     </select>
+    <select id="getByName" resultType="com.music.entity.Music">
+        select * from music where name like '%${mohu}%'
+    </select>
+
 </mapper>

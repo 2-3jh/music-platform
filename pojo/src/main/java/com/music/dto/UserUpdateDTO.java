@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class UserUpdateDTO {
+    private Integer userId;
     //用户的名字
     private String name;
     //用户的性别
@@ -13,4 +14,5 @@ public class UserUpdateDTO {
     private String hobby;
     //密码
     private String password;
+
 }

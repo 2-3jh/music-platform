@@ -20,4 +20,7 @@ public interface MusicMapper {
     List<String> getCategory();
 
     List<Music> getByIdBatch(List<Integer> list);
+
+
+    List<Music> getByName(String name);
 }

@@ -5,13 +5,17 @@ import com.music.dto.MVPageQueryDTO;
 import com.music.result.PageResult;
 import com.music.result.Result;
 import com.music.service.MVService;
+import com.music.vo.MVCrudeVO;
 import com.music.vo.MVItemVO;
+import com.music.vo.MusicCrudeVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RestController
@@ -45,5 +49,12 @@ public class MVController {
     public Result getById(@PathVariable("id") Integer id) {
         MVItemVO mvItemVO=mvService.getById(id);
         return Result.success(mvItemVO);
+    }
+
+    @GetMapping("/search")
+    @Log(doingName = "名字模糊查询mv")
+    public Result search(String name){
+        List<MVCrudeVO> list = mvService.getByName(name);
+        return Result.success(list);
     }
 }

@@ -3,6 +3,7 @@ package com.music.controller;
 
 import com.music.annotation.Log;
 import com.music.dto.UserEntryDTO;
+import com.music.dto.UserIdDTO;
 import com.music.dto.UserUpdateDTO;
 import com.music.entity.User;
 import com.music.result.Result;
@@ -88,6 +89,7 @@ public class UserController {
     @PutMapping()
     @Log(doingName = "修改用户的信息")
     public Result UpdateUserInfo(@RequestBody UserUpdateDTO userUpdateDTO) {
+        MyContext.setCurrentId(userUpdateDTO.getUserId());
         userService.updateUser(userUpdateDTO);
         return Result.success();
     }
@@ -98,8 +100,8 @@ public class UserController {
      */
     @PostMapping("/logout")
     @Log(doingName = "退出登录")
-    public Result Logout(){
-        redisService.deleteUser(MyContext.getCurrentId().toString());
+    public Result Logout(@RequestBody UserIdDTO userIdDTO){
+        redisService.deleteUser(userIdDTO.getUserId().toString());
         return Result.success();
     }
 }

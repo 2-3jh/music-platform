@@ -53,4 +53,11 @@ public class MusicServiceImpl implements MusicService {
 
         return list;
     }
+
+    @Override
+    public List<MusicCrudeVO> getByName(String name) {
+        List<Music> list = musicMapper.getByName(name);
+        List<MusicCrudeVO> musicCrudeVOS = BeanCopyUtils.copyBeanList(list, MusicCrudeVO.class);
+        return musicCrudeVOS;
+    }
 }

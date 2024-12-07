@@ -10,4 +10,6 @@ public class PlaylistSaveDTO {
 
     //歌单名字
     private String name;
+
+    private int userId;
 }

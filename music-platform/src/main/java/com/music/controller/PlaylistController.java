@@ -2,15 +2,13 @@ package com.music.controller;
 
 
 import com.music.annotation.Log;
-import com.music.dto.PlaylistMusicDTO;
-import com.music.dto.PlaylistDelDTO;
-import com.music.dto.PlaylistSaveDTO;
+import com.music.dto.*;
 import com.music.result.Result;
 import com.music.service.PlaylistService;
+import com.music.utils.MyContext;
 import com.music.vo.MusicCrudeVO;
 import com.music.vo.PlaylistVO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,6 +31,7 @@ public class PlaylistController {
     @PostMapping()
     @Log(doingName = "save playlist")
     public Result save(@RequestBody PlaylistSaveDTO playlistSaveDTO){
+        MyContext.setCurrentId(playlistSaveDTO.getUserId());
         playlistService.save(playlistSaveDTO);
         return Result.success();
     }
@@ -42,10 +41,10 @@ public class PlaylistController {
      * 查询已有的歌单
      * @return
      */
-    @GetMapping()
+    @GetMapping("/list")
     @Log(doingName = "查询用户的歌单")
-    public Result getPlaylist(){
-
+    public Result getPlaylist(UserIdDTO userIdDTO){
+        MyContext.setCurrentId(userIdDTO.getUserId());
         List<PlaylistVO> list = playlistService.getPlaylist();
 
         return Result.success(list);
@@ -60,6 +59,7 @@ public class PlaylistController {
     @DeleteMapping()
     @Log(doingName = "delete playlist")
     public Result deletePlaylist(@RequestBody PlaylistDelDTO playlistDelDTO){
+        MyContext.setCurrentId(playlistDelDTO.getUserId());
         playlistService.delete(playlistDelDTO.getId());
         return Result.success();
     }
@@ -67,14 +67,15 @@ public class PlaylistController {
 
     /**
      * 获取具体歌单的所有音乐
-     * @param id
+     * @param listIdDTO
      * @return
      */
-    @GetMapping("/{id}")
+    @GetMapping("/music")
     @Log(doingName = "get music")
-    public Result getMusic(@PathVariable Integer id){
+    public Result getMusic(ListIdDTO listIdDTO){
+        MyContext.setCurrentId(listIdDTO.getUserId());
         //获取音乐信息
-        List<MusicCrudeVO> list = playlistService.getMusic(id);
+        List<MusicCrudeVO> list = playlistService.getMusic(listIdDTO.getListId());
         return Result.success(list);
     }
 
@@ -87,6 +88,8 @@ public class PlaylistController {
     @PutMapping("/music")
     @Log(doingName = "add music to playlist")
     public Result addMusic(@RequestBody PlaylistMusicDTO playlistMusicDTO){
+
+        MyContext.setCurrentId(playlistMusicDTO.getUserId());
         playlistService.addMusic(playlistMusicDTO);
         return Result.success();
     }
@@ -99,6 +102,7 @@ public class PlaylistController {
     @DeleteMapping("/music")
     @Log(doingName = "delete music from playlist")
     public Result deleteMusic(@RequestBody PlaylistMusicDTO playlistMusicDTO){
+        MyContext.setCurrentId(playlistMusicDTO.getUserId());
         playlistService.deleteMusic(playlistMusicDTO);
         return Result.success();
     }

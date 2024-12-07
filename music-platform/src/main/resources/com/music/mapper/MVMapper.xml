@@ -12,4 +12,7 @@
             </if>
         </where>
     </select>
+    <select id="getByName" resultType="com.music.entity.MV">
+        select * from MV where name like '%${name}%'
+    </select>
 </mapper>

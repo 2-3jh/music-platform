@@ -11,10 +11,11 @@ import com.music.result.PageResult;
 import com.music.service.MVService;
 import com.music.utils.BeanCopyUtils;
 import com.music.vo.MVItemVO;
-import com.music.vo.MVPageQueryVO;
+import com.music.vo.MVCrudeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -30,7 +31,7 @@ public class MVServiceImpl implements MVService {
         PageHelper.startPage(mvPageQueryDTO.getPage(),mvPageQueryDTO.getPageSize());
         Page<MV> page=mvMapper.pageQuery(mvPageQueryDTO);
         //查询结果的类型转换
-        List<MVPageQueryVO> list=BeanCopyUtils.copyBeanList(page.getResult(), MVPageQueryVO.class);
+        List<MVCrudeVO> list=BeanCopyUtils.copyBeanList(page.getResult(), MVCrudeVO.class);
         return new PageResult(page.getTotal(),list);
     }
 
@@ -48,5 +49,14 @@ public class MVServiceImpl implements MVService {
         }
         MVItemVO mvItemVO = BeanCopyUtils.copyBean(mv, MVItemVO.class);
         return mvItemVO;
+    }
+
+    //根据name模糊查询
+
+    @Override
+    public List<MVCrudeVO> getByName(String name) {
+        List<MV> list = mvMapper.getByName(name);
+        List<MVCrudeVO> mvCrudeVOS = BeanCopyUtils.copyBeanList(list, MVCrudeVO.class);
+        return mvCrudeVOS;
     }
 }
