@@ -12,6 +12,7 @@ import com.music.service.UserService;
 import com.music.utils.BeanCopyUtils;
 import com.music.utils.MyContext;
 import com.music.vo.UserInfoVO;
+import com.music.vo.UserLoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     PlaylistMapper playlistMapper;
+
+    @Autowired
+    private RedisServiceImpl redisService;
 
     /**
      * 用户注册
@@ -118,15 +122,19 @@ public class UserServiceImpl implements UserService {
         if(userUpdateDTO.getName() == null) {
             throw new MyException(Constant.NAME_NOT_NULL);
         }
+
+
         //判断是否更新用户名
         if (userUpdateDTO.getName() != null) {
             //查询用户名是否已经存在
             user = userMapper.getUserByName(userUpdateDTO.getName());
 
-            if(user != null&&!user.getId().equals(currentId)) {
+            if(user != null&&user.getId()!=currentId) {
                 throw new MyException(Constant.USER_NAME_EXIST);
             }
         }
+
+
         //进行user的封装
         user = BeanCopyUtils.copyBean(userUpdateDTO, User.class);
         user.setId((int) currentId);
@@ -135,10 +143,19 @@ public class UserServiceImpl implements UserService {
 
         if (userUpdateDTO.getPassword() != null&& StringUtils.hasText(userUpdateDTO.getPassword())) {
             user.setPassword(DigestUtils.md5DigestAsHex(userUpdateDTO.getPassword().getBytes()));
+        }else{
+            throw new MyException(Constant.PASSWORD_EMPTY);
         }
 
         //更新
         userMapper.updateUser(user);
+
+        //更新redis中的数据
+        UserLoginVO userLoginVO = redisService.readUser(user.getId().toString());
+        userLoginVO.setName(userUpdateDTO.getName());
+        userLoginVO.setGender(userUpdateDTO.getGender());
+        userLoginVO.setHobby(userUpdateDTO.getHobby());
+        redisService.updateUser(user.getId().toString(),userLoginVO);
 
     }
 }

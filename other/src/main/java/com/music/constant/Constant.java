@@ -20,4 +20,5 @@ public class Constant {
     public static final String JWT_ERROR = "请登录";
 
     public static final String NAME_NOT_NULL ="用户名不能为空";
+    public static final String PASSWORD_EMPTY = "密码不能为空";
 }

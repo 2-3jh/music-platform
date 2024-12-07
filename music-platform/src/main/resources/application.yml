@@ -12,6 +12,11 @@ spring:
       url: jdbc:mysql://${music.datasource.host}:${music.datasource.port}/${music.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: ${music.datasource.username}
       password: ${music.datasource.password}
+  redis:
+    host: ${music.redis.host}
+    port: ${music.redis.port}
+    password: ${music.redis.password}
+    database: ${music.redis.database}
 
 mybatis:
   #mapper配置文件

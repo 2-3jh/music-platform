@@ -7,8 +7,10 @@ import com.music.dto.UserUpdateDTO;
 import com.music.entity.User;
 import com.music.result.Result;
 import com.music.service.UserService;
+import com.music.service.impl.RedisServiceImpl;
 import com.music.utils.BeanCopyUtils;
 import com.music.utils.JwtUtil;
+import com.music.utils.MyContext;
 import com.music.vo.UserInfoVO;
 import com.music.vo.UserLoginVO;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,10 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    RedisServiceImpl redisService;
+
 
     /**
      * 用户注册
@@ -54,9 +60,12 @@ public class UserController {
         String token = JwtUtil.generateJWT(claims);
 
         //封装
-        UserLoginVO userLogonVO = BeanCopyUtils.copyBean(user, UserLoginVO.class);
-        userLogonVO.setToken(token);
-        return Result.success(userLogonVO);
+        UserLoginVO userLoginVO = BeanCopyUtils.copyBean(user, UserLoginVO.class);
+        userLoginVO.setToken(token);
+
+        //将信息存入redis中
+        redisService.createUser(userLoginVO.getId().toString(),userLoginVO);
+        return Result.success(userLoginVO);
     }
 
     /**
@@ -66,7 +75,9 @@ public class UserController {
     @GetMapping()
     @Log(doingName = "获取用户信息")
     public Result getUserInfo() {
-        UserInfoVO userInfoVO = userService.getUserInfo();
+//        UserInfoVO userInfoVO = userService.getUserInfo();
+        UserLoginVO userLoginVO = redisService.readUser(MyContext.getCurrentId().toString());
+        UserInfoVO userInfoVO = BeanCopyUtils.copyBean(userLoginVO, UserInfoVO.class);
         return Result.success(userInfoVO);
     }
 
@@ -78,6 +89,17 @@ public class UserController {
     @Log(doingName = "修改用户的信息")
     public Result UpdateUserInfo(@RequestBody UserUpdateDTO userUpdateDTO) {
         userService.updateUser(userUpdateDTO);
+        return Result.success();
+    }
+
+    /**
+     * 退出登录
+     * @return
+     */
+    @PostMapping("/logout")
+    @Log(doingName = "退出登录")
+    public Result Logout(){
+        redisService.deleteUser(MyContext.getCurrentId().toString());
         return Result.success();
     }
 }
